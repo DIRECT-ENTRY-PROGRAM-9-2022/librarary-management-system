@@ -1,0 +1,25 @@
+#home a{
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+
+}
+
+#tbl-members{
+    th:first-child,
+    td:first-child{
+        width: 75px;
+        text-align: center;
+    }
+    th:nth-child(2),
+    tbody td:nth-child(2){
+        width: 250px;
+    }
+    th:last-child,
+    tbody td:last-child{
+        width: 150px;
+        text-align: center;
+    }
+}
