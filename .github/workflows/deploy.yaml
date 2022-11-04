@@ -40,3 +40,6 @@ jobs:
 
       - name: Setting up the gcloud
         uses: google-github-actions/setup-gcloud@v0
+
+      - name: Deploye the dist.zip
+        run: gcloud compute scp --zone="asia-south1-a" dist.zip dep-9-vm:/opt
