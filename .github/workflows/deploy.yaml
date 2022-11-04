@@ -37,7 +37,7 @@ jobs:
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-
+          
       - name: Setting up the gcloud
         uses: google-github-actions/setup-gcloud@v0
 
