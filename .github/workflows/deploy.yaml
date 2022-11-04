@@ -1,36 +1,47 @@
-name: "CI/CD Pipeline for LMS Front-End"
-on:
+name: "CI/CD Pipeline for LMS front-End"
+on: 
   push:
-    branches: 
+    branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checking out the latest 
+      - name: Checking out the latest commit
         uses: actions/checkout@v3
-      - name: Install the Node js
+
+      - name: Installing node js
         uses: actions/setup-node@v3
         with:
-           node-version: 18
-      - name: Install the sass
+          node-version: 18
+
+      - name: installing sass
         run: npm install -g sass
 
-      - name: Compiling sass file to css
+      - name: 'Compiling .scss files to.css'
         run: sass scss:css
 
-      - name: Creating dist derecty
-        run: mkdir dist
+      - name: creating the dist directory
+        run: mkdir dist 
 
-      - name: coping everything to dist derecty
+      # - run: cp -r css dist/
+      # - run: cp -r pages dist/
+      # - run: cp -r js dist/
+      # - run: cp index.html dist/
+
+
+      - name: coppying everythings to the dist directory
         run: cp -r css pagers js index.html dist/
-      
-      - name: Creating Zip file for deployment
+
+      - name: Creating a zip file for deployment
         run: zip -r dist.zip dist/
 
-      - name: 'Authenticate to GCP'
+      - name: Listing the dist files for the confirmation
+        run: ls -la .
+
+      - name: 'Authenticate to GGCP'
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
@@ -39,4 +50,10 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
 
       - name: Deploye the dist.zip
-        run: gcloud compute scp --zone="asia-south1-a" dist.zip root@dep-9-vm:/opt
+        run:  gcloud compute scp --zone="asia-south1-a" dist.zip root@dep-9-vm:/opt/apache/apache-tomcat-10.1.1/webapps/lms
+
+      - name: Cleaning Up
+        run: gcloud compute ssh --zone="asia-south1-a" dep-9-vm --command="sudo rm -r /opt/apache/apache-tomcat-10.1.1/webapps/lms/pages /opt/apache/apache-tomcat-10.1.1/webapps/lms/js /opt/apache/apache-tomcat-10.1.1/webapps/lms/index.html"
+
+      - name: Extracting the dist.zip
+        run: gcloud compute ssh --zone="asia-south1-a" dep-9-vm --command="sudo unzip dist.zip"
