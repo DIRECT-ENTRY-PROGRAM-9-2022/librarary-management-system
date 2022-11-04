@@ -47,16 +47,14 @@ jobs:
           /opt/apache/apache-tomcat-10.1.1/webapps/lms/index.html
           "
 
-      - name: Extracting the zip
+      - name: Exacting the zip
         run: >
-         gcloud compute ssh --zone="asia-south1-a" dep-9-vm
-          --command="sudo unzip -rf /opt/apache/apache-tomcat-10.1.1/webapps/lms/dist.zip -d /opt/apache/apache-tomcat-10.1.1/webapps/lms"
+          gcloud compute ssh --zone="asia-south1-a" dep-9-vm 
+          --command="sudo unzip /opt/apache/apache-tomcat-10.1.1/webapps/lms/dist.zip -d /opt/apache/apache-tomcat-10.1.1/webapps/lms/"
 
-
-      - name: Cleaning the zip
+      - name: Cleaning left overs
         run: >
-         gcloud compute ssh --zone="asia-south1-a" dep-9-vm
-          --command="sudo rm -rf /opt/apache/apache-tomcat-10.1.1/webapps/lms/dist.zip"
-
+          gcloud compute ssh --zone="asia-south1-a" dep-9-vm 
+          --command="sudo rm /opt/apache/apache-tomcat-10.1.1/webapps/lms/dist.zip"
 
 
