@@ -10,19 +10,19 @@ jobs:
 
     steps:
       - name: Checking out the latest 
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: Install the Node js
-      - uses: actions/setup-node@v3
+        uses: actions/setup-node@v3
         with:
            node-version: 18
       - name: Install the sass
-      - run: npm install -g sass
+        run: npm install -g sass
 
       - name: Compiling sass file to css
-      - run: sass scss:css
+        run: sass scss:css
 
       - name: Creating dist derecty
-      - run: mkdir dist
+        run: mkdir dist
 
       - name: coping everything to dist derecty
       - run: cp -r css dist/
@@ -33,11 +33,11 @@ jobs:
       - name: Creating Zip file for deployment
       - run: zip -r dist.zip dist/
 
-      - name: 'Authenticate to GGCP'
+      - name: 'Authenticate to GCP'
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-          
+
       - name: Setting up the gcloud
         uses: google-github-actions/setup-gcloud@v0
 
